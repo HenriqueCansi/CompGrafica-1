@@ -1,0 +1,183 @@
+# depslib dependency file v1.0
+1757437650 source:c:\users\henrique\downloads\projetocg\src\app.cpp
+	"App.h"
+	<iostream>
+
+1757441073 source:c:\users\henrique\downloads\projetocg\main.cpp
+	<iostream>
+	<string>
+	<vector>
+	<fstream>
+	<sstream>
+	<map>
+	"App.h"
+	"Shape.h"
+	"Color.h"
+	"Rectangle.h"
+	"CircleFilled.h"
+	"Casa.h"
+	"Arvore.h"
+	"Cerca.h"
+	"Sol.h"
+	"Transformations.h"
+
+1757511080 source:c:\estudo\2025b\grafica\projetocg\src\app.cpp
+	"App.h"
+	<iostream>
+
+1757515782 c:\estudo\2025b\grafica\projetocg\include\app.h
+	<SDL2/SDL.h>
+	<string>
+	<vector>
+	"Shape.h"
+
+1757441078 c:\estudo\2025b\grafica\projetocg\include\shape.h
+	<SDL2/SDL.h>
+
+1757511141 source:c:\estudo\2025b\grafica\projetocg\main.cpp
+	<iostream>
+	<string>
+	<vector>
+	<fstream>
+	<sstream>
+	<map>
+	<direct.h>
+	"App.h"
+	"Shape.h"
+	"Color.h"
+	"Rectangle.h"
+	"CircleFilled.h"
+	"Casa.h"
+	"Arvore.h"
+	"Cerca.h"
+	"Sol.h"
+	"Transformations.h"
+
+1757441083 c:\estudo\2025b\grafica\projetocg\include\color.h
+	<SDL2/SDL.h>
+	<string>
+	<map>
+
+1757437650 c:\estudo\2025b\grafica\projetocg\include\rectangle.h
+	"Shape.h"
+	"Color.h"
+
+1757441180 c:\estudo\2025b\grafica\projetocg\include\circlefilled.h
+	"Shape.h"
+	"Color.h"
+	<cmath>
+
+1757437650 c:\estudo\2025b\grafica\projetocg\include\casa.h
+	"Shape.h"
+	"Rectangle.h"
+	"Color.h"
+	<vector>
+	<memory>
+
+1757437650 c:\estudo\2025b\grafica\projetocg\include\arvore.h
+	"Shape.h"
+	"Rectangle.h"
+	"CircleFilled.h"
+	"Color.h"
+	<vector>
+	<memory>
+
+1757437650 c:\estudo\2025b\grafica\projetocg\include\cerca.h
+	"Shape.h"
+	"Rectangle.h"
+	"Color.h"
+	<vector>
+	<memory>
+
+1757437650 c:\estudo\2025b\grafica\projetocg\include\sol.h
+	"Shape.h"
+	"CircleFilled.h"
+	"Color.h"
+	<memory>
+
+1757437650 c:\estudo\2025b\grafica\projetocg\include\transformations.h
+
+1757534748 source:c:\estudo\2025b\grafica\trabalho1\main.cpp
+	"App.h"
+
+1757532972 c:\estudo\2025b\grafica\trabalho1\include\app.h
+	<SDL2/SDL.h>
+	<vector>
+	<memory>
+	<string>
+	"Shape.h"
+	"Color.h"
+	"Transformations.h"
+
+1757532711 c:\estudo\2025b\grafica\trabalho1\include\shape.h
+	<SDL2/SDL.h>
+	"Transformations.h"
+
+1757532762 c:\estudo\2025b\grafica\trabalho1\include\transformations.h
+	<SDL2/SDL.h>
+	<cmath>
+
+1757532793 c:\estudo\2025b\grafica\trabalho1\include\color.h
+	<SDL2/SDL.h>
+	<string>
+	<map>
+
+1757549842 source:c:\estudo\2025b\grafica\trabalho1\src\app.cpp
+	"App.h"
+	"Casa.h"
+	"Arvore.h"
+	"Cerca.h"
+	"Sol.h"
+	<iostream>
+	<fstream>
+	<sstream>
+	<algorithm>
+
+1757532852 c:\estudo\2025b\grafica\trabalho1\include\casa.h
+	"Shape.h"
+	"Rectangle.h"
+	"Color.h"
+	<vector>
+	<memory>
+
+1757533430 c:\estudo\2025b\grafica\trabalho1\include\rectangle.h
+	<SDL2/SDL.h>
+
+1757533100 c:\estudo\2025b\grafica\trabalho1\include\arvore.h
+	"Shape.h"
+	"Color.h"
+
+1757533180 c:\estudo\2025b\grafica\trabalho1\include\cerca.h
+	"Shape.h"
+	"Color.h"
+
+1757533252 c:\estudo\2025b\grafica\trabalho1\include\sol.h
+	"Shape.h"
+	"Color.h"
+
+1757549524 source:c:\estudo\2025b\grafica\trabalho1\src\arvore.cpp
+	"Casa.h"
+	<algorithm>
+	<vector>
+	<cmath>
+
+1757533446 c:\estudo\2025b\grafica\trabalho1\include\circlefilled.h
+	<SDL2/SDL.h>
+
+1757532922 source:c:\estudo\2025b\grafica\trabalho1\src\casa.cpp
+	"Casa.h"
+	<algorithm>
+	<vector>
+
+1757533226 source:c:\estudo\2025b\grafica\trabalho1\src\cerca.cpp
+	"Cerca.h"
+
+1757533397 source:c:\estudo\2025b\grafica\trabalho1\src\circlefilled.cpp
+	"CircleFilled.h"
+	<cmath>
+
+1757533316 source:c:\estudo\2025b\grafica\trabalho1\src\sol.cpp
+	"Sol.h"
+	"CircleFilled.h"
+	<cmath>
+
