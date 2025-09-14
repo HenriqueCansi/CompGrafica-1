@@ -13,59 +13,45 @@ void Casa::draw(SDL_Renderer* renderer, Transform& T) {
     int px = bl.x;
     int py = bl.y - h;
 
-    // --- PAREDE ---
+    // parede
+    SDL_Rect parede = { px, py, w, h };
     SDL_SetRenderDrawColor(renderer, corParede.r, corParede.g, corParede.b, corParede.a);
-    SDL_Rect parede = {px, py, w, h};
     SDL_RenderFillRect(renderer, &parede);
 
-    // --- TELHADO (triângulo preenchido) ---
-    // pontos do triângulo em SRD:
-    int x0 = px;
-    int y0 = py;
-    int x1 = px + w;
-    int y1 = py;
-    int xm = px + w/2;
-    int ym = py - (h / 2); // altura do telhado = metade da altura da casa (ajusta se quiseres)
-
-    // bounding box vertical
-    int ymin = std::min({y0,y1,ym});
-    int ymax = std::max({y0,y1,ym});
+    // telhado como triângulo preenchido (scanline fill)
+    int x1 = px,     y1 = py;
+    int x2 = px+w,   y2 = py;
+    int x3 = px+w/2, y3 = py - h/2;
 
     SDL_SetRenderDrawColor(renderer, corTelhado.r, corTelhado.g, corTelhado.b, corTelhado.a);
-    // scanline fill: para cada linha Y encontra interseções com arestas do triângulo
-    auto interp = [](int ay,int ax,int by,int bx,int y)->int{
-        if(by==ay) return ax;
-        double t = double(y - ay) / double(by - ay);
-        return (int)round(ax + t*(bx-ax));
+
+    // ordena os vértices por Y (y1 <= y2 <= y3)
+    if (y2 < y1) { std::swap(y1,y2); std::swap(x1,x2); }
+    if (y3 < y1) { std::swap(y1,y3); std::swap(x1,x3); }
+    if (y3 < y2) { std::swap(y2,y3); std::swap(x2,x3); }
+
+    auto edgeInterp = [](int x0,int y0,int x1,int y1,int y){
+        if(y1==y0) return x0;
+        return x0 + (x1-x0)*(y-y0)/(y1-y0);
     };
 
-    for(int yy = ymin; yy <= ymax; ++yy){
-        std::vector<int> xs;
-        xs.push_back(interp(y0,x0,ym,xm,yy));
-        xs.push_back(interp(y1,x1,ym,xm,yy));
-        xs.push_back(interp(y0,x0,y1,x1,yy));
-        int xmin = *std::min_element(xs.begin(), xs.end());
-        int xmax = *std::max_element(xs.begin(), xs.end());
-        // desenha linha horizontal preenchendo a faixa
-        SDL_RenderDrawLine(renderer, xmin, yy, xmax, yy);
+    for(int y=y1; y<=y3; y++){
+        int xa, xb;
+        if(y<y2){
+            xa = edgeInterp(x1,y1,x3,y3,y);
+            xb = edgeInterp(x1,y1,x2,y2,y);
+        } else {
+            xa = edgeInterp(x1,y1,x3,y3,y);
+            xb = edgeInterp(x2,y2,x3,y3,y);
+        }
+        if(xa>xb) std::swap(xa,xb);
+        SDL_RenderDrawLine(renderer, xa,y, xb,y);
     }
 
-    // desenhar contorno do telhado (opcional)
-    SDL_SetRenderDrawColor(renderer, 0,0,0,255); // contorno a preto
-    SDL_RenderDrawLine(renderer, x0, y0, xm, ym);
-    SDL_RenderDrawLine(renderer, x1, y1, xm, ym);
-    SDL_RenderDrawLine(renderer, x0, y0, x1, y1);
-
-    // --- PORTA ---
-    int portaW = (int)round(w * 0.25);
-    int portaH = (int)round(h * 0.4);
-    int portaX = px + (w - portaW)/2;
-    int portaY = py + h - portaH;
+    // porta
+    int portaW = w/4;
+    int portaH = h/3;
+    SDL_Rect porta = { px + w/2 - portaW/2, py + h - portaH, portaW, portaH };
     SDL_SetRenderDrawColor(renderer, corPorta.r, corPorta.g, corPorta.b, corPorta.a);
-    SDL_Rect porta = {portaX, portaY, portaW, portaH};
     SDL_RenderFillRect(renderer, &porta);
-
-    // opcional: contorno da parede
-    SDL_SetRenderDrawColor(renderer, 0,0,0,255);
-    SDL_RenderDrawRect(renderer, &parede);
 }

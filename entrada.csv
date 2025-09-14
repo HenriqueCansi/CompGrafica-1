@@ -1,14 +1,14 @@
 Tela;
 Resolucao;1024;768;
 Metros;40;30;
-Cor;Branco;
+Cor;Azul;
 Casa;
 Localizacao;10;10;
 Altura;3;
 Largura;10;
 CorParede;Marrom;
 CorTelhado;Lima;
-CorPorta;Marrom;
+CorPorta;Verde;
 Arvore;
 Localizacao;5;20;
 Altura;5;
