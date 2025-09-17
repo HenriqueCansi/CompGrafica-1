@@ -18,6 +18,36 @@ void Casa::draw(SDL_Renderer* renderer, Transform& T) {
     SDL_SetRenderDrawColor(renderer, corParede.r, corParede.g, corParede.b, corParede.a);
     SDL_RenderFillRect(renderer, &parede);
 
+    // janelas
+int janelaW = w / 5;
+int janelaH = h / 4;
+int janelaY = py + h/3; // mais ou menos no meio da parede
+SDL_Color corJanela = {135, 206, 235, 255}; // azul claro (skyblue)
+
+// esquerda
+SDL_Rect janelaEsq = { px + w/4 - janelaW/2, janelaY, janelaW, janelaH };
+SDL_SetRenderDrawColor(renderer, corJanela.r, corJanela.g, corJanela.b, corJanela.a);
+SDL_RenderFillRect(renderer, &janelaEsq);
+
+// direita
+SDL_Rect janelaDir = { px + 3*w/4 - janelaW/2, janelaY, janelaW, janelaH };
+SDL_RenderFillRect(renderer, &janelaDir);
+
+// moldura/cruz nas janelas (linhas pretas finas)
+SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+
+// janela esquerda cruz
+SDL_RenderDrawLine(renderer, janelaEsq.x, janelaEsq.y + janelaEsq.h/2,
+                              janelaEsq.x + janelaEsq.w, janelaEsq.y + janelaEsq.h/2);
+SDL_RenderDrawLine(renderer, janelaEsq.x + janelaEsq.w/2, janelaEsq.y,
+                              janelaEsq.x + janelaEsq.w/2, janelaEsq.y + janelaEsq.h);
+
+// janela direita cruz
+SDL_RenderDrawLine(renderer, janelaDir.x, janelaDir.y + janelaDir.h/2,
+                              janelaDir.x + janelaDir.w, janelaDir.y + janelaDir.h/2);
+SDL_RenderDrawLine(renderer, janelaDir.x + janelaDir.w/2, janelaDir.y,
+                              janelaDir.x + janelaDir.w/2, janelaDir.y + janelaDir.h);
+
     // telhado como triângulo preenchido (scanline fill)
     int x1 = px,     y1 = py;
     int x2 = px+w,   y2 = py;
