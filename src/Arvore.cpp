@@ -1,40 +1,35 @@
 #include "Arvore.h"
 #include "CircleFilled.h"
+#include "RectRotated.h"
 #include <cmath>
+#include <algorithm>
 
-Arvore::Arvore(double _x,double _y,double h, Color t, Color f)
-    : x(_x), y(_y), altura(h), corTronco(t), corFolha(f) {}
+Arvore::Arvore(double _x,double _y,double h, Color t, Color f, double ang)
+    : x(_x), y(_y), altura(h), inclinacao(ang), corTronco(t), corFolha(f) {}
 
 void Arvore::draw(SDL_Renderer* renderer, Transform& T) {
     SDL_Point base = T.toSRD(x,y);
 
-    // tronco
-    double trunkWm = altura * 0.15;
-    double trunkHm = altura * 0.35;
-    int trunkW = std::max(1, (int)round(trunkWm * T.sx));
-    int trunkH = std::max(1, (int)round(trunkHm * T.sy));
+    // dimensões do tronco em pixels
+    int trunkW = std::max(1, (int)round(altura * 0.15 * T.sx));
+    int trunkH = std::max(1, (int)round(altura * 0.35 * T.sy));
 
-    // calcula top do tronco; se for negativo, faz clamp para 0 (assim fica visível)
-    int trunkTopY = base.y - trunkH;
-    if (trunkTopY < 0) trunkTopY = 0;
+    // usa RectRotated para o tronco
+    RectRotated tronco(base, trunkW, trunkH, inclinacao, corTronco);
+    tronco.draw(renderer, T);
 
-    SDL_Rect tronco = { base.x - trunkW/2, trunkTopY, trunkW, trunkH };
-    SDL_SetRenderDrawColor(renderer, corTronco.r, corTronco.g, corTronco.b, corTronco.a);
-    SDL_RenderFillRect(renderer, &tronco);
-
-    // copa (3 círculos) — posiciona relativamente ao topo do tronco
+    // copa (3 círculos, rotacionados em torno da base)
     int radius = std::max(1, (int)round(altura * T.sx * 0.25));
-    int copaCenterY = trunkTopY - radius/2;
-    // se copa acima do topo, coloca a copa logo abaixo do topo para garantir visibilidade
-    if (copaCenterY < 0) copaCenterY = trunkTopY + radius/2;
+    SDL_Point center = { base.x, base.y - trunkH - radius/2 };
+
+    // aplica rotação do centro da copa
+    extern SDL_Point rotatePoint(SDL_Point p, SDL_Point origin, double angGraus);
+    SDL_Point c1 = rotatePoint(center, base, inclinacao);
+    SDL_Point c2 = rotatePoint({center.x - radius/2, center.y + radius/4}, base, inclinacao);
+    SDL_Point c3 = rotatePoint({center.x + radius/2, center.y + radius/4}, base, inclinacao);
 
     SDL_SetRenderDrawColor(renderer, corFolha.r, corFolha.g, corFolha.b, corFolha.a);
-    fillCircle(renderer, base.x, copaCenterY, radius);
-    fillCircle(renderer, base.x - radius/2, copaCenterY + radius/4, radius);
-    fillCircle(renderer, base.x + radius/2, copaCenterY + radius/4, radius);
-
-    // marcador visual discreto para debug (sem imprimir no console)
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    SDL_Rect marker = { base.x - 2, base.y - 2, 4, 4 };
-    SDL_RenderFillRect(renderer, &marker);
+    fillCircle(renderer, c1.x, c1.y, radius);
+    fillCircle(renderer, c2.x, c2.y, radius);
+    fillCircle(renderer, c3.x, c3.y, radius);
 }

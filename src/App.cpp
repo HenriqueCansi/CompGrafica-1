@@ -86,14 +86,13 @@ void App::parseCSV(const std::string& filename)
                 }
                 else
                 {
-                    // consumimos token desconhecido para seguir em frente
                     if (i < tokens.size()) ++i;
                 }
             }
         }
         else if (tk == "Casa")
         {
-            double x=0, y=0, alt=0, larg=0;
+            double x=0, y=0, alt=0, larg=0, inclinacao=0;
             std::string corParede, corTelhado, corPorta;
 
             while (i < tokens.size() && !isObject(tokens[i]))
@@ -124,6 +123,10 @@ void App::parseCSV(const std::string& filename)
                 {
                     corPorta = tokens[i++];
                 }
+                else if (p == "Inclinacao" || p == "Inclinação")
+                {
+                    if (i < tokens.size()) inclinacao = std::stod(tokens[i++]);
+                }
                 else
                 {
                     // ignora token inesperado
@@ -131,18 +134,20 @@ void App::parseCSV(const std::string& filename)
             }
 
             std::cout << "[PARSE] Casa -> x="<<x<<" y="<<y<<" alt="<<alt<<" larg="<<larg
-                      <<" corParede="<<corParede<<" corTelhado="<<corTelhado<<" corPorta="<<corPorta << std::endl;
+                      <<" corParede="<<corParede<<" corTelhado="<<corTelhado<<" corPorta="<<corPorta <<
+                      " inclinacao="<<inclinacao <<  std::endl;
 
             scene.push_back(std::make_unique<Casa>(
                                 x,y,alt,larg,
                                 parseColor(corParede),
                                 parseColor(corTelhado),
-                                parseColor(corPorta)
+                                parseColor(corPorta),
+                                inclinacao
                             ));
         }
         else if (tk == "Arvore")
         {
-            double x=0, y=0, alt=3;
+            double x=0, y=0, alt=0, inclinacao=0;
             std::string corTronco="Marrom", corFolha="Verde";
 
             while (i < tokens.size() && !isObject(tokens[i]))
@@ -166,20 +171,27 @@ void App::parseCSV(const std::string& filename)
                 {
                     if (i < tokens.size()) corFolha = trim(tokens[i++]);
                 }
+                else if (p == "Inclinacao" || p == "Inclinação")
+                {
+                    if (i < tokens.size()) inclinacao = std::stod(tokens[i++]);
+                }
             }
 
             std::cout << "[PARSE] Arvore -> x="<<x<<" y="<<y<<" alt="<<alt
-                      <<" corTronco="<<corTronco<<" corFolha="<<corFolha << std::endl;
+                      <<" corTronco="<<corTronco<<" corFolha="<<corFolha
+                      <<" inclinacao="<<inclinacao << std::endl;
 
             scene.push_back(std::make_unique<Arvore>(
-                                x,y,alt,
+                                x, y, alt,
                                 parseColor(corTronco),
-                                parseColor(corFolha)
+                                parseColor(corFolha),
+                                inclinacao
                             ));
+
         }
         else if (tk == "Cerca")
         {
-            double x=0, y=0, larg=0, alt=0;
+            double x=0, y=0, larg=0, alt=0, inclinacao=0;
             std::string cor;
 
             while (i < tokens.size() && !isObject(tokens[i]))
@@ -202,21 +214,25 @@ void App::parseCSV(const std::string& filename)
                 {
                     cor = tokens[i++];
                 }
+                else if (p == "Inclinacao" || p == "Inclinação")
+                {
+                    if (i < tokens.size()) inclinacao = std::stod(tokens[i++]);
+                }
                 else
                 {
                     // ignora
                 }
             }
 
-            std::cout << "[PARSE] Cerca -> x="<<x<<" y="<<y<<" larg="<<larg<<" alt="<<alt<<" cor="<<cor << std::endl;
+            std::cout << "[PARSE] Cerca -> x="<<x<<" y="<<y<<" larg="<<larg<<" alt="<<alt<<" cor="<<cor <<" inclinacao="<<inclinacao<< std::endl;
 
             scene.push_back(std::make_unique<Cerca>(
-                                x,y,larg,alt, parseColor(cor)
+                                x,y,larg,alt, parseColor(cor) ,inclinacao
                             ));
         }
         else if (tk == "Sol")
         {
-            double x=0, y=0, r=2;
+            double x=0, y=0, r=0, inclinacao=0;
             std::string cor="Amarelo";
 
             while (i < tokens.size() && !isObject(tokens[i]))
@@ -227,7 +243,7 @@ void App::parseCSV(const std::string& filename)
                     x = std::stod(tokens[i++]);
                     y = std::stod(tokens[i++]);
                 }
-                else if (p == "Raio" || p=="Radius")
+                else if (p == "Altura" || p=="Altura")
                 {
                     if (i < tokens.size()) r = std::stod(tokens[i++]);
                 }
@@ -235,11 +251,15 @@ void App::parseCSV(const std::string& filename)
                 {
                     if (i < tokens.size()) cor = trim(tokens[i++]);
                 }
+                else if (p == "Inclinacao" || p == "Inclinação")
+                {
+                    if (i < tokens.size()) inclinacao = std::stod(tokens[i++]);
+                }
             }
 
-            std::cout << "[PARSE] Sol -> x="<<x<<" y="<<y<<" raio="<<r<<" cor="<<cor << std::endl;
+            std::cout << "[PARSE] Sol -> x="<<x<<" y="<<y<<" raio="<<r<<" cor="<<cor <<" inclinacao="<<inclinacao << std::endl;
 
-            scene.push_back(std::make_unique<Sol>(x,y,r,parseColor(cor)));
+            scene.push_back(std::make_unique<Sol>(x,y,r,parseColor(cor),inclinacao));
         }
         else
         {

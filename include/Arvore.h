@@ -5,10 +5,10 @@
 #include "Color.h"
 
 class Arvore : public Shape {
-    double x,y, altura;
+    double x, y, altura, inclinacao;   // inclinacao em graus
     Color corTronco, corFolha;
 public:
-    Arvore(double _x,double _y,double h, Color t, Color f);
+    Arvore(double _x,double _y,double h, Color t, Color f, double ang = 0);
     void draw(SDL_Renderer* renderer, Transform& T) override;
 };
 

@@ -10,8 +10,10 @@
 class Casa : public Shape {
     double x,y, altura, largura;
     Color corParede, corTelhado, corPorta;
+    double inclinacao;
 public:
-    Casa(double _x,double _y,double h,double w, Color p, Color t, Color porta);
+    Casa(double _x, double _y, double h, double w,
+         Color p, Color t, Color porta, double ang = 0.0);
     void draw(SDL_Renderer* renderer, Transform& T) override;
 };
 
