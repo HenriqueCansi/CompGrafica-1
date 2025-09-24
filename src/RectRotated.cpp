@@ -1,19 +1,10 @@
 #include "RectRotated.h"
+#include "TransformUtils.h"
 #include <cmath>
 #include <vector>
 #include <algorithm>
 
-// Função auxiliar: rotaciona ponto em torno de origem
-static SDL_Point rotatePoint(SDL_Point p, SDL_Point origin, double angGraus) {
-    double ang = angGraus * M_PI / 180.0;
-    double x = p.x - origin.x;
-    double y = p.y - origin.y;
-    double xr = x * cos(ang) - y * sin(ang);
-    double yr = x * sin(ang) + y * cos(ang);
-    return { (int)std::round(xr + origin.x), (int)std::round(yr + origin.y) };
-}
-
-// Função auxiliar: preencher quadrilátero
+// --------------- Função auxiliar - Preencher quadrilátero ------------------
 static void fillQuad(SDL_Renderer* renderer, SDL_Point p1, SDL_Point p2, SDL_Point p3, SDL_Point p4) {
     SDL_Point pts[4] = {p1, p2, p3, p4};
     int minY = std::min({p1.y, p2.y, p3.y, p4.y});
@@ -40,13 +31,13 @@ RectRotated::RectRotated(SDL_Point base, int w, int h, double ang, Color c)
     : origin(base), width(w), height(h), angle(ang), color(c) {}
 
 void RectRotated::draw(SDL_Renderer* renderer, Transform& T) {
-    // cantos do retângulo antes da rotação
+    // Cantos do retângulo antes da rotação
     SDL_Point p1 = { origin.x - width/2, origin.y };
     SDL_Point p2 = { origin.x + width/2, origin.y };
     SDL_Point p3 = { origin.x + width/2, origin.y - height };
     SDL_Point p4 = { origin.x - width/2, origin.y - height };
 
-    // aplica rotação
+    // Aplica rotação
     p1 = rotatePoint(p1, origin, angle);
     p2 = rotatePoint(p2, origin, angle);
     p3 = rotatePoint(p3, origin, angle);

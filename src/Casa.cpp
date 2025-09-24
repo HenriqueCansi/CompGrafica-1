@@ -4,7 +4,6 @@
 #include <vector>
 #include <cmath>
 
-// fillPolygon (scanline) - usa regra de inclusão de vértices e arredondamento
 static void fillPolygon(SDL_Renderer* renderer, const std::vector<SDL_Point>& verts) {
     if (verts.size() < 3) return;
 
@@ -58,7 +57,7 @@ void Casa::draw(SDL_Renderer* renderer, Transform& T) {
 
     SDL_SetRenderDrawColor(renderer, corParede.r, corParede.g, corParede.b, corParede.a);
     fillPolygon(renderer, parede);
-    // contorno (opcional)
+    // CONTORNO
     // SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     // SDL_RenderDrawLines(renderer, parede.data(), (int)parede.size());
     // SDL_RenderDrawLine(renderer, parede.back().x, parede.back().y, parede.front().x, parede.front().y);
@@ -71,7 +70,7 @@ void Casa::draw(SDL_Renderer* renderer, Transform& T) {
 
     SDL_SetRenderDrawColor(renderer, corTelhado.r, corTelhado.g, corTelhado.b, corTelhado.a);
     fillPolygon(renderer, telhado);
-    // contorno
+    // CONTORNO
     // SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     // SDL_RenderDrawLines(renderer, telhado.data(), (int)telhado.size());
     // SDL_RenderDrawLine(renderer, telhado.back().x, telhado.back().y, telhado.front().x, telhado.front().y);
@@ -89,7 +88,7 @@ void Casa::draw(SDL_Renderer* renderer, Transform& T) {
 
     SDL_SetRenderDrawColor(renderer, corPorta.r, corPorta.g, corPorta.b, corPorta.a);
     fillPolygon(renderer, porta);
-    // contorno
+    // CONTORNO
     // SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     // SDL_RenderDrawLines(renderer, porta.data(), (int)porta.size());
     // SDL_RenderDrawLine(renderer, porta.back().x, porta.back().y, porta.front().x, porta.front().y);
@@ -101,7 +100,7 @@ void Casa::draw(SDL_Renderer* renderer, Transform& T) {
 
     SDL_Color corJanela = {135, 206, 235, 255};
 
-    // --- esquerda
+    // --- Esquerda
     std::vector<SDL_Point> janelaEsq = {
         { px + W/4 - janelaW/2, janelaY },
         { px + W/4 + janelaW/2, janelaY },
@@ -113,7 +112,7 @@ void Casa::draw(SDL_Renderer* renderer, Transform& T) {
     SDL_SetRenderDrawColor(renderer, corJanela.r, corJanela.g, corJanela.b, corJanela.a);
     fillPolygon(renderer, janelaEsq);
 
-    // cruz da janela esquerda
+    // Cruz da janela esquerda
     SDL_Point jEsqCentro = rotatePoint({px + W/4, janelaY + janelaH/2}, centro, inclinacao);
     SDL_Point jEsqTop = rotatePoint({px + W/4, janelaY}, centro, inclinacao);
     SDL_Point jEsqBot = rotatePoint({px + W/4, janelaY + janelaH}, centro, inclinacao);
@@ -124,7 +123,7 @@ void Casa::draw(SDL_Renderer* renderer, Transform& T) {
     SDL_RenderDrawLine(renderer, jEsqEsq.x, jEsqEsq.y, jEsqDir.x, jEsqDir.y);
     SDL_RenderDrawLine(renderer, jEsqTop.x, jEsqTop.y, jEsqBot.x, jEsqBot.y);
 
-    // --- direita
+    // --- Direita
     std::vector<SDL_Point> janelaDir = {
         { px + 3*W/4 - janelaW/2, janelaY },
         { px + 3*W/4 + janelaW/2, janelaY },
@@ -136,7 +135,7 @@ void Casa::draw(SDL_Renderer* renderer, Transform& T) {
     SDL_SetRenderDrawColor(renderer, corJanela.r, corJanela.g, corJanela.b, corJanela.a);
     fillPolygon(renderer, janelaDir);
 
-    // cruz da janela direita
+    // Cruz da janela direita
     SDL_Point jDirCentro = rotatePoint({px + 3*W/4, janelaY + janelaH/2}, centro, inclinacao);
     SDL_Point jDirTop = rotatePoint({px + 3*W/4, janelaY}, centro, inclinacao);
     SDL_Point jDirBot = rotatePoint({px + 3*W/4, janelaY + janelaH}, centro, inclinacao);

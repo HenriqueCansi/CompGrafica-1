@@ -5,7 +5,7 @@
 #include "Color.h"
 
 class Arvore : public Shape {
-    double x, y, altura, inclinacao;   // inclinacao em graus
+    double x, y, altura, inclinacao;
     Color corTronco, corFolha;
 public:
     Arvore(double _x,double _y,double h, Color t, Color f, double ang = 0);

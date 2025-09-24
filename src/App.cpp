@@ -66,7 +66,6 @@ void App::parseCSV(const std::string& filename)
 
         if (tk == "Tela")
         {
-            // lê enquanto o próximo token não for um objeto
             while (i < tokens.size() && !isObject(tokens[i]))
             {
                 std::string param = tokens[i++];
@@ -127,10 +126,7 @@ void App::parseCSV(const std::string& filename)
                 {
                     if (i < tokens.size()) inclinacao = std::stod(tokens[i++]);
                 }
-                else
-                {
-                    // ignora token inesperado
-                }
+                else {}
             }
 
             std::cout << "[PARSE] Casa -> x="<<x<<" y="<<y<<" alt="<<alt<<" larg="<<larg
@@ -218,10 +214,7 @@ void App::parseCSV(const std::string& filename)
                 {
                     if (i < tokens.size()) inclinacao = std::stod(tokens[i++]);
                 }
-                else
-                {
-                    // ignora
-                }
+                else {}
             }
 
             std::cout << "[PARSE] Cerca -> x="<<x<<" y="<<y<<" larg="<<larg<<" alt="<<alt<<" cor="<<cor <<" inclinacao="<<inclinacao<< std::endl;
@@ -263,10 +256,9 @@ void App::parseCSV(const std::string& filename)
         }
         else
         {
-            // token desconhecido -- apenas ignora
             std::cout << "[PARSE] token desconhecido: " << tk << std::endl;
         }
-    } // while tokens
+    }
 
     std::cout << "[PARSE] total objects na cena = " << scene.size() << std::endl;
 }

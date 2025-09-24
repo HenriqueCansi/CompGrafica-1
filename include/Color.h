@@ -6,7 +6,6 @@
 #include <unordered_map>
 #include <algorithm>
 
-// Estrutura de cor RGBA
 struct Color { Uint8 r, g, b, a; };
 
 struct HtmlColor {
@@ -16,7 +15,7 @@ struct HtmlColor {
             sscanf(hex.c_str()+1, "%02x%02x%02x", &r, &g, &b);
             return {(Uint8)r, (Uint8)g, (Uint8)b, 255};
         }
-        return {255,255,255,255}; // fallback branco
+        return {255,255,255,255};
     }
 };
 
@@ -169,7 +168,7 @@ inline Color parseColor(std::string name) {
                    [](unsigned char c){ return std::tolower(c); });
     auto it = colorTable.find(name);
     if(it != colorTable.end()) return it->second;
-    return {255,255,255,255}; // fallback branco
+    return {255,255,255,255};
 }
 
 #endif

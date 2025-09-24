@@ -6,9 +6,9 @@
 #include <SDL2/SDL.h>
 
 class RectRotated : public Shape {
-    SDL_Point origin;     // ponto base de rotação
-    int width, height;    // dimensões em pixels
-    double angle;         // ângulo em graus
+    SDL_Point origin;     // Ponto base de rotação
+    int width, height;    // Dimensões em pixels
+    double angle;         // Ângulo em graus
     Color color;
 public:
     RectRotated(SDL_Point base, int w, int h, double ang, Color c);
