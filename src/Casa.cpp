@@ -47,100 +47,96 @@ void Casa::draw(SDL_Renderer* renderer, Transform& T) {
     int px = bl.x;
     int py = bl.y - H;
 
-    SDL_Point centro = { px + W/2, py + H/2 };
+    // pivô no canto inferior esquerdo
+    SDL_Point pivot = { px, py + H };
+
+    // proporções da parede e telhado
+    int paredeH = (int)(H * 0.7);
+    int telhadoH = H - paredeH;
 
     // ------------------ PAREDE ------------------
     std::vector<SDL_Point> parede = {
-        { px, py }, { px+W, py }, { px+W, py+H }, { px, py+H }
+        { px,       py + telhadoH },            // topo-esq (com base no início do telhado)
+        { px+W,     py + telhadoH },            // topo-dir
+        { px+W,     py + telhadoH + paredeH },  // base-dir
+        { px,       py + telhadoH + paredeH }   // base-esq
     };
-    for (auto &p : parede) p = rotatePoint(p, centro, inclinacao);
+    for (auto &p : parede) p = rotatePoint(p, pivot, inclinacao);
 
     SDL_SetRenderDrawColor(renderer, corParede.r, corParede.g, corParede.b, corParede.a);
     fillPolygon(renderer, parede);
-    // CONTORNO
-    // SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    // SDL_RenderDrawLines(renderer, parede.data(), (int)parede.size());
-    // SDL_RenderDrawLine(renderer, parede.back().x, parede.back().y, parede.front().x, parede.front().y);
 
     // ------------------ TELHADO ------------------
     std::vector<SDL_Point> telhado = {
-        { px, py }, { px+W, py }, { px+W/2, py - H/2 }
+        { px,       py + telhadoH },        // topo-esq da parede
+        { px+W,     py + telhadoH },        // topo-dir da parede
+        { px+W/2,   py }                    // pico do telhado (em cima)
     };
-    for (auto &p : telhado) p = rotatePoint(p, centro, inclinacao);
+    for (auto &p : telhado) p = rotatePoint(p, pivot, inclinacao);
 
     SDL_SetRenderDrawColor(renderer, corTelhado.r, corTelhado.g, corTelhado.b, corTelhado.a);
     fillPolygon(renderer, telhado);
-    // CONTORNO
-    // SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    // SDL_RenderDrawLines(renderer, telhado.data(), (int)telhado.size());
-    // SDL_RenderDrawLine(renderer, telhado.back().x, telhado.back().y, telhado.front().x, telhado.front().y);
 
     // ------------------ PORTA ------------------
     int portaW = W / 4;
-    int portaH = H / 3;
+    int portaH = paredeH / 3;
     std::vector<SDL_Point> porta = {
-        { px + W/2 - portaW/2, py + H - portaH },
-        { px + W/2 + portaW/2, py + H - portaH },
-        { px + W/2 + portaW/2, py + H },
-        { px + W/2 - portaW/2, py + H }
+        { px + W/2 - portaW/2, py + telhadoH + paredeH - portaH },
+        { px + W/2 + portaW/2, py + telhadoH + paredeH - portaH },
+        { px + W/2 + portaW/2, py + telhadoH + paredeH },
+        { px + W/2 - portaW/2, py + telhadoH + paredeH }
     };
-    for (auto &p : porta) p = rotatePoint(p, centro, inclinacao);
+    for (auto &p : porta) p = rotatePoint(p, pivot, inclinacao);
 
     SDL_SetRenderDrawColor(renderer, corPorta.r, corPorta.g, corPorta.b, corPorta.a);
     fillPolygon(renderer, porta);
-    // CONTORNO
-    // SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    // SDL_RenderDrawLines(renderer, porta.data(), (int)porta.size());
-    // SDL_RenderDrawLine(renderer, porta.back().x, porta.back().y, porta.front().x, porta.front().y);
 
     // ------------------ JANELAS ------------------
     int janelaW = W / 5;
-    int janelaH = H / 4;
-    int janelaY = py + H/3;
+    int janelaH = paredeH / 4;
+    int janelaY = py + telhadoH + paredeH/3;
 
     SDL_Color corJanela = {135, 206, 235, 255};
 
-    // --- Esquerda
+    // esquerda
     std::vector<SDL_Point> janelaEsq = {
         { px + W/4 - janelaW/2, janelaY },
         { px + W/4 + janelaW/2, janelaY },
         { px + W/4 + janelaW/2, janelaY + janelaH },
         { px + W/4 - janelaW/2, janelaY + janelaH }
     };
-    for (auto &p : janelaEsq) p = rotatePoint(p, centro, inclinacao);
+    for (auto &p : janelaEsq) p = rotatePoint(p, pivot, inclinacao);
 
     SDL_SetRenderDrawColor(renderer, corJanela.r, corJanela.g, corJanela.b, corJanela.a);
     fillPolygon(renderer, janelaEsq);
 
-    // Cruz da janela esquerda
-    SDL_Point jEsqCentro = rotatePoint({px + W/4, janelaY + janelaH/2}, centro, inclinacao);
-    SDL_Point jEsqTop = rotatePoint({px + W/4, janelaY}, centro, inclinacao);
-    SDL_Point jEsqBot = rotatePoint({px + W/4, janelaY + janelaH}, centro, inclinacao);
-    SDL_Point jEsqEsq = rotatePoint({px + W/4 - janelaW/2, janelaY + janelaH/2}, centro, inclinacao);
-    SDL_Point jEsqDir = rotatePoint({px + W/4 + janelaW/2, janelaY + janelaH/2}, centro, inclinacao);
+    // cruz esquerda
+    SDL_Point jEsqTop = rotatePoint({px + W/4, janelaY}, pivot, inclinacao);
+    SDL_Point jEsqBot = rotatePoint({px + W/4, janelaY + janelaH}, pivot, inclinacao);
+    SDL_Point jEsqEsq = rotatePoint({px + W/4 - janelaW/2, janelaY + janelaH/2}, pivot, inclinacao);
+    SDL_Point jEsqDir = rotatePoint({px + W/4 + janelaW/2, janelaY + janelaH/2}, pivot, inclinacao);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderDrawLine(renderer, jEsqEsq.x, jEsqEsq.y, jEsqDir.x, jEsqDir.y);
     SDL_RenderDrawLine(renderer, jEsqTop.x, jEsqTop.y, jEsqBot.x, jEsqBot.y);
 
-    // --- Direita
+    // direita
     std::vector<SDL_Point> janelaDir = {
         { px + 3*W/4 - janelaW/2, janelaY },
         { px + 3*W/4 + janelaW/2, janelaY },
         { px + 3*W/4 + janelaW/2, janelaY + janelaH },
         { px + 3*W/4 - janelaW/2, janelaY + janelaH }
     };
-    for (auto &p : janelaDir) p = rotatePoint(p, centro, inclinacao);
+    for (auto &p : janelaDir) p = rotatePoint(p, pivot, inclinacao);
 
     SDL_SetRenderDrawColor(renderer, corJanela.r, corJanela.g, corJanela.b, corJanela.a);
     fillPolygon(renderer, janelaDir);
 
-    // Cruz da janela direita
-    SDL_Point jDirCentro = rotatePoint({px + 3*W/4, janelaY + janelaH/2}, centro, inclinacao);
-    SDL_Point jDirTop = rotatePoint({px + 3*W/4, janelaY}, centro, inclinacao);
-    SDL_Point jDirBot = rotatePoint({px + 3*W/4, janelaY + janelaH}, centro, inclinacao);
-    SDL_Point jDirEsq = rotatePoint({px + 3*W/4 - janelaW/2, janelaY + janelaH/2}, centro, inclinacao);
-    SDL_Point jDirDir = rotatePoint({px + 3*W/4 + janelaW/2, janelaY + janelaH/2}, centro, inclinacao);
+    // cruz direita
+    SDL_Point jDirTop = rotatePoint({px + 3*W/4, janelaY}, pivot, inclinacao);
+    SDL_Point jDirBot = rotatePoint({px + 3*W/4, janelaY + janelaH}, pivot, inclinacao);
+    SDL_Point jDirEsq = rotatePoint({px + 3*W/4 - janelaW/2, janelaY + janelaH/2}, pivot, inclinacao);
+    SDL_Point jDirDir = rotatePoint({px + 3*W/4 + janelaW/2, janelaY + janelaH/2}, pivot, inclinacao);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderDrawLine(renderer, jDirEsq.x, jDirEsq.y, jDirDir.x, jDirDir.y);

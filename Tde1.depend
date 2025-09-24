@@ -844,7 +844,7 @@
 	"Color.h"
 	<SDL2/SDL.h>
 
-1758718562 source:c:\users\lucas\onedrive\documentos\compgrafica-1\src\casa.cpp
+1758755727 source:c:\users\lucas\onedrive\documentos\compgrafica-1\src\casa.cpp
 	"Casa.h"
 	"TransformUtils.h"
 	<algorithm>
@@ -872,7 +872,7 @@
 	<vector>
 	<algorithm>
 
-1758720162 source:c:\users\lucas\onedrive\documentos\compgrafica-1\src\sol.cpp
+1758756304 source:c:\users\lucas\onedrive\documentos\compgrafica-1\src\sol.cpp
 	"Sol.h"
 	"CircleFilled.h"
 	<cmath>

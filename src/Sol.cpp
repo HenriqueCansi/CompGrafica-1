@@ -7,7 +7,7 @@ Sol::Sol(double _x,double _y,double r, Color c, double ang)
 
 void Sol::draw(SDL_Renderer* renderer, Transform& T) {
     SDL_Point c = T.toSRD(x,y);
-    int rad = (int)(raio * T.sx);
+int rad = (int)((raio/2.0) * T.sx);
 
     // --------------- SOL --------------------
     SDL_SetRenderDrawColor(renderer, cor.r, cor.g, cor.b, cor.a);
